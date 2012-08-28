@@ -147,11 +147,14 @@ var RPETools = (function() {
   var Storage = (function() {
 
     /**
-     * Retrieves the value of a named variable from the RPE Persistence Server.
+     * Retrieves then de-serializes the content of the named variable from the RPE Persistence Server.
      *
      * @method read
      * @param name {String} The name of the desired stored variable.
-     * @return {String} The value of the stored variable on the RPE Persistence Server.
+     * @return {Boolean|Number|String|Array|Object} The value of the stored variable on the RPE Persistence Server.
+     * @example
+        // retrieve value of myVariable from RPE Persistence Server...
+        var myVariable = RPETools.Storage.read("myVariable");
      */
     function read(){
       var name = (arguments[0]) ? arguments[0] : "";
@@ -171,12 +174,32 @@ var RPETools = (function() {
     };
 
     /**
-     * Stores (or overwrites) a variable on the RPE Persistence Server.
+     * Serializes then stores a variable on the RPE Persistence Server; overwrites if the named variable already exists.
      *
      * @method write
      * @param name {String} The name of the variable to store.
-     * @param value {String} The value to be assigned to the named variable.
-     * @return {String} The original value.
+     * @param value {Boolean|Number|String|Array|Object} The value to be assigned to the named variable.
+     * @return {Boolean|Number|String|Array|Object} The original value.
+     * @example
+        // store some simple JS vars...
+        RPETools.Storage.write("myBooleanVariable",true);
+        RPETools.Storage.write("myNumericVariable",256);
+        RPETools.Storage.write("myStringVariable","Some string.");
+
+        // store an array & simple JS object...
+        RPETools.Storage.write("myArrayVariable",["Audi","BMW","Jaguar"]);
+        RPETools.Storage.write("myLiteralVariable",{"host":"localhost","port":"27465"});
+
+        // store a more complex JS object...
+        var myObjectVariable = {
+          name: "Test Object",
+          someArrayNumbers: [1,2,3],
+          aFlag : true,
+          aNestedObject : {
+            name : "Test Object's Nested Object"
+          }
+        };
+        RPETools.Storage().write("anObjectVariable",myObjectVariable);
      */
     function write(){
       var name = (arguments[0]) ? arguments[0] : "";
@@ -198,6 +221,8 @@ var RPETools = (function() {
      *
      * @method reset
      * @return {String} An empty string.
+     * @example
+        RPETools.Storage.reset();
      */
     function reset(){
       request = serviceURI + "storage/reset";
@@ -212,6 +237,8 @@ var RPETools = (function() {
      * @method saveXML
      * @param filename {String} The target filename to which XML content is written.
      * @return {String} An XML representation of all variables stored on the RPE Persistence Server.
+     * @example
+        RPETools.Storage.saveXML("c:\\temp\\storage.xml");
      */
     function saveXML(){
       var filename = (arguments[0]) ? arguments[0] : "";
@@ -251,6 +278,12 @@ var RPETools = (function() {
      * @param msg {String} The content of the log message to be stored.
      * @param [tag=""] {String} An optional String that can be used to identify related log messages.
      * @return {String} A 36 character ID generated for the logged message, to use with an RPE Bookmark element.
+     * @example
+        // record a simple log message
+        var bookmark = RPETools.Logger.log("The requested Rhapsody package could not be found.");
+
+        // record a log message tagged "DOORS"
+        var bookmark = RPETools.Logger.log("Expected DOORS module attribute not found.","DOORS");
      */
     function log(){
       var msg = (arguments[0]) ? arguments[0] : "";
@@ -274,6 +307,8 @@ var RPETools = (function() {
      *
      * @method reset
      * @return {String} Empty string.
+     * @example
+        RPETools.Logger.reset();
      */
     function reset(){
       request = serviceURI + "logger/reset";
@@ -288,6 +323,8 @@ var RPETools = (function() {
      * @method saveXML
      * @param filename {String} The target filename to which XML content is written.
      * @return {String} An XML representation of all logged messages on the RPE Persistence Server.
+     * @example
+        RPETools.Logger.saveXML("c:\\temp\\logger.xml");
      */
     function saveXML(){
       var filename = (arguments[0]) ? arguments[0] : "";
