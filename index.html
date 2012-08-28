@@ -30,25 +30,27 @@
       <section>
         <h3>Multi-Template Variable Persistence</h3>
 
-<p>Ever found yourself wishing for an easy way to persist variables between multi-template IBM Rational® Publishing Engine™ document specifications? With this library, it's as easy as adding this to one document template:</p>
+<p>Ever found yourself wishing for an easy way to persist variables between multi-template IBM Rational® Publishing Engine™ document specifications?</p>
 
-<pre><code>RPETools.Storage.write("myVariable","My variable's value");
+<p>With this library, it's as easy as adding the following to one document template:</p>
+
+<pre><code class="javascript">RPETools.Storage.write("myVariable","My variable's value");
 </code></pre>
 
 <p>And this to another:</p>
 
-<pre><code>var myVariable = RPETools.Storage.read("myVariable");
+<pre><code class="javascript">var myVariable = RPETools.Storage.read("myVariable");
 </code></pre>
 
 <h3>Supercharged Logging</h3>
 
-<p>It can often by useful to embed log style messages within the actual content of an RPE-generated document; for example, when an expected DOORS attribute couldn't be found.</p>
+<p>It can often by useful to embed log style messages within the actual content of an RPE-generated document; for example, when an expected DOORS attribute couldn't be found or a required condition was not met.</p>
 
-<p>This library provides a sensible mechanism for recording, tagging and processing log messages, such that you may easily bookmark them in your generated document and provide your reader with a hyperlinked table of "Publishing Log Messages" in your document's front matter.</p>
+<p>This library provides a sensible mechanism for recording, tagging and processing log messages, such that you may easily bookmark them in your generated document and construct a hyperlinked table of "Publishing Log Messages" in your document's front matter.</p>
 
 <p>Logging a message is effortless:</p>
 
-<pre><code>// record a simple log message...
+<pre><code class="javascript">// record a simple log message...
 var bookmark = RPETools.Logger.log("The requested Rhapsody package could not be found.");
 
 // record a log message tagged "DOORS"...
