@@ -1,0 +1,398 @@
+{
+    "project": {},
+    "files": {
+        "rpe-tools.js": {
+            "name": "rpe-tools.js",
+            "modules": {
+                "RPE": 1
+            },
+            "classes": {
+                "RPETools": 1,
+                "Storage": 1,
+                "Logger": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "RPE": {
+            "name": "RPE",
+            "submodules": {},
+            "classes": {
+                "RPETools": 1,
+                "Storage": 1,
+                "Logger": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "rpe-tools.js",
+            "line": 266
+        }
+    },
+    "classes": {
+        "RPETools": {
+            "name": "RPETools",
+            "shortname": "RPETools",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "RPE",
+            "namespace": "",
+            "file": "rpe-tools.js",
+            "line": 5,
+            "description": "Data persistence & logging utility for IBM Rational® Publishing Engine™.\nUse in conjunction with RPE Persistence Server from Reportable Systems.\n\nCopyright 2012, ReportableSystems.com\nhttp://www.reportablesystems.com\n\nNO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.",
+            "static": 1
+        },
+        "Storage": {
+            "name": "Storage",
+            "shortname": "Storage",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "RPE",
+            "namespace": "",
+            "file": "rpe-tools.js",
+            "line": 141,
+            "description": "The Storage class is used to persist variables across multiple RPE templates.",
+            "static": 1
+        },
+        "Logger": {
+            "name": "Logger",
+            "shortname": "Logger",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "RPE",
+            "namespace": "",
+            "file": "rpe-tools.js",
+            "line": 266,
+            "description": "The Logger class is used to manage publishing logs for non-trivial RPE templates.",
+            "static": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "rpe-tools.js",
+            "line": 19,
+            "description": "A minified version of Douglas Crockford's JSON library, for JS serialization.\nSee https://github.com/douglascrockford/JSON-js/blob/master/json2.js",
+            "itemtype": "property",
+            "name": "JSON",
+            "type": "Object",
+            "class": "RPETools",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 28,
+            "description": "The hostname or IP address of the RPE Persistence Server.",
+            "itemtype": "property",
+            "name": "host",
+            "type": "String",
+            "default": "\"localhost\"",
+            "class": "RPETools",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 37,
+            "description": "The port number of the RPE Persistence Server.",
+            "itemtype": "property",
+            "name": "port",
+            "type": "Number",
+            "default": "27465",
+            "class": "RPETools",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 45,
+            "description": "The base URI for communicating with the RPE Persistence Server service.",
+            "itemtype": "property",
+            "name": "serviceURI",
+            "type": "String",
+            "default": "\"http://localhost:27465/\"",
+            "class": "RPETools",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 54,
+            "description": "Invokes an HTTP GET request using Mozilla Rhino / Java class wrapping.",
+            "itemtype": "method",
+            "name": "get",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "A well-formed, validly encoded URL.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The content of the HTTP response.",
+                "type": "String"
+            },
+            "class": "RPETools",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 76,
+            "description": "Generates a 36 character UID-like identifier String; e.g. \"77a04516-18b4-5be5-12ee-4bb256ebae9e\".",
+            "itemtype": "method",
+            "name": "uid",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "A new UID-like identifier.",
+                "type": "String"
+            },
+            "class": "RPETools",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 90,
+            "description": "Allocates a file using Mozilla Rhino / Java class wrapping.",
+            "itemtype": "method",
+            "name": "getFile",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "filename",
+                    "description": "A fully-qualified filepath and filename descriptor.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "java.io.File"
+            },
+            "class": "RPETools",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 106,
+            "description": "Writes content to a file using Mozilla Rhino / Java class wrapping.",
+            "itemtype": "method",
+            "name": "writeToFile",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "filename",
+                    "description": "A fully-qualified filepath and filename descriptor.",
+                    "type": "String"
+                },
+                {
+                    "name": "content",
+                    "description": "A fully-qualified filepath and filename descriptor.",
+                    "type": "String"
+                },
+                {
+                    "name": "append",
+                    "description": "A flag that adjusts the write mode (append to existing file, or overwrite).",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "class": "RPETools",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 126,
+            "description": "Overrides default hostname and port configuration settings for the RPE Persistence Server.",
+            "itemtype": "method",
+            "name": "setHost",
+            "params": [
+                {
+                    "name": "host",
+                    "description": "The IP address or hostname where the RPE Persistence Server service is running.",
+                    "type": "String"
+                },
+                {
+                    "name": "port",
+                    "description": "The port number that the RPE Persistence Server service is bound to.",
+                    "type": "Number"
+                }
+            ],
+            "example": [
+                "\n      RPETools.setHost(\"10.0.2.5\",27465);"
+            ],
+            "class": "RPETools",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 149,
+            "description": "Retrieves then de-serializes the content of the named variable from the RPE Persistence Server.",
+            "itemtype": "method",
+            "name": "read",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The name of the desired stored variable.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The value of the stored variable on the RPE Persistence Server.",
+                "type": "Boolean|Number|String|Array|Object"
+            },
+            "example": [
+                "\n       // retrieve value of myVariable from RPE Persistence Server...\n       var myVariable = RPETools.Storage.read(\"myVariable\");"
+            ],
+            "class": "Storage",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 176,
+            "description": "Serializes then stores a variable on the RPE Persistence Server; overwrites if the named variable already exists.",
+            "itemtype": "method",
+            "name": "write",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The name of the variable to store.",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "The value to be assigned to the named variable.",
+                    "type": "Boolean|Number|String|Array|Object"
+                }
+            ],
+            "return": {
+                "description": "The original value.",
+                "type": "Boolean|Number|String|Array|Object"
+            },
+            "example": [
+                "\n       // store some simple JS vars...\n       RPETools.Storage.write(\"myBooleanVariable\",true);\n       RPETools.Storage.write(\"myNumericVariable\",256);\n       RPETools.Storage.write(\"myStringVariable\",\"Some string.\");\n\n       // store an array & simple JS object...\n       RPETools.Storage.write(\"myArrayVariable\",[\"Audi\",\"BMW\",\"Jaguar\"]);\n       RPETools.Storage.write(\"myLiteralVariable\",{\"host\":\"localhost\",\"port\":\"27465\"});\n\n       // store a more complex JS object...\n       var myObjectVariable = {\n         name: \"Test Object\",\n         someArrayNumbers: [1,2,3],\n         aFlag : true,\n         aNestedObject : {\n           name : \"Test Object's Nested Object\"\n         }\n       };\n       RPETools.Storage().write(\"anObjectVariable\",myObjectVariable);"
+            ],
+            "class": "Storage",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 219,
+            "description": "Clears all variables from the RPE Persistence Server.",
+            "itemtype": "method",
+            "name": "reset",
+            "return": {
+                "description": "An empty string.",
+                "type": "String"
+            },
+            "example": [
+                "\n       RPETools.Storage.reset();"
+            ],
+            "class": "Storage",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 234,
+            "description": "Saves to disk an XML representation of all variables stored on the RPE Persistence Server.",
+            "itemtype": "method",
+            "name": "saveXML",
+            "params": [
+                {
+                    "name": "filename",
+                    "description": "The target filename to which XML content is written.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "An XML representation of all variables stored on the RPE Persistence Server.",
+                "type": "String"
+            },
+            "example": [
+                "\n       RPETools.Storage.saveXML(\"c:\\\\temp\\\\storage.xml\");"
+            ],
+            "class": "Storage",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 274,
+            "description": "Records (and optionally tags) a log message to the RPE Persistence Server.",
+            "itemtype": "method",
+            "name": "log",
+            "params": [
+                {
+                    "name": "msg",
+                    "description": "The content of the log message to be stored.",
+                    "type": "String"
+                },
+                {
+                    "name": "tag",
+                    "description": "An optional String that can be used to identify related log messages.",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "\"\""
+                }
+            ],
+            "return": {
+                "description": "A 36 character ID generated for the logged message, to use with an RPE Bookmark element.",
+                "type": "String"
+            },
+            "example": [
+                "\n       // record a simple log message\n       var bookmark = RPETools.Logger.log(\"The requested Rhapsody package could not be found.\");\n\n       // record a log message tagged \"DOORS\"\n       var bookmark = RPETools.Logger.log(\"Expected DOORS module attribute not found.\",\"DOORS\");"
+            ],
+            "class": "Logger",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 305,
+            "description": "Clears all log entries from the RPE Persistence Server.",
+            "itemtype": "method",
+            "name": "reset",
+            "return": {
+                "description": "Empty string.",
+                "type": "String"
+            },
+            "example": [
+                "\n       RPETools.Logger.reset();"
+            ],
+            "class": "Logger",
+            "module": "RPE"
+        },
+        {
+            "file": "rpe-tools.js",
+            "line": 320,
+            "description": "Saves to disk an XML representation of all logged messages on the RPE Persistence Server.",
+            "itemtype": "method",
+            "name": "saveXML",
+            "params": [
+                {
+                    "name": "filename",
+                    "description": "The target filename to which XML content is written.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "An XML representation of all logged messages on the RPE Persistence Server.",
+                "type": "String"
+            },
+            "example": [
+                "\n       RPETools.Logger.saveXML(\"c:\\\\temp\\\\logger.xml\");"
+            ],
+            "class": "Logger",
+            "module": "RPE"
+        }
+    ]
+}
