@@ -59,7 +59,7 @@
             "namespace": "",
             "file": "rpe-tools.js",
             "line": 141,
-            "description": "The Storage module is used to persist variables across multiple RPE templates.",
+            "description": "The Storage class is used to persist variables across multiple RPE templates.",
             "static": 1
         },
         "Logger": {
@@ -74,7 +74,7 @@
             "namespace": "",
             "file": "rpe-tools.js",
             "line": 266,
-            "description": "The Logger module is used to manage publishing logs for non-trivial RPE templates.",
+            "description": "The Logger class is used to manage publishing logs for non-trivial RPE templates.",
             "static": 1
         }
     },
