@@ -16,7 +16,7 @@
     <div class="wrapper">
       <header>
         <h1>RPE Tools JS</h1>
-        <p>Data persistence &amp; logging utility for IBM Rational Publishing Engine.</p>
+        <p>Data persistence &amp; logging utility for IBM Rational® Publishing Engine™.</p>
 
         <p class="view"><a href="https://github.com/reportablesystems/rpe-tools">View the Project on GitHub <small>reportablesystems/rpe-tools</small></a></p>
 
@@ -28,16 +28,19 @@
         </ul>
       </header>
       <section>
-        <h3>Welcome to GitHub Pages.</h3>
+        <h3>In a nutshell</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Ever found yourself wishing for an easy way to persist variables in multi-template IBM Rational® Publishing Engine™ document specifications? Using our small JavaScript library, it's as easy as adding this to your first template:</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<pre><code>RPETools.Storage.write("myVariable","My variable's value");
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>And this in your next:</p>
+
+<pre><code>var myVariable = RPETools.Storage.read("myVariable");
+</code></pre>
+
+<p>Rather nifty eh?</p>
 
 <h3>Designer Templates</h3>
 
