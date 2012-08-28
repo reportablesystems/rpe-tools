@@ -1,36 +1,62 @@
 /**
- * rpe-tools.js
- *
- * Data persistence & logging utility for IBM Rational Publishing Engine.
- * To be used in conjunction with RPE Persistence Server.
+ * @module RPE
+ **/
+
+/**
+ * Data persistence & logging utility for IBM Rational® Publishing Engine™.
+ * Use in conjunction with RPE Persistence Server from Reportable Systems.
  *
  * Copyright 2012, ReportableSystems.com
  * http://www.reportablesystems.com
  *
  * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+ *
+ * @class RPETools
+ * @static
  **/
 var RPETools = (function() {
 
   /**
-   * Minified JSON2 for JS serialization.
+   * A minified version of Douglas Crockford's JSON library, for JS serialization.
+   * See https://github.com/douglascrockford/JSON-js/blob/master/json2.js
+   *
+   * @property JSON
+   * @type Object
    */
   var JSON;if(!JSON){JSON={}}(function(){function f(a){return a<10?"0"+a:a}function quote(a){escapable.lastIndex=0;return escapable.test(a)?'"'+a.replace(escapable,function(a){var b=meta[a];return typeof b==="string"?b:"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+a+'"'}function str(a,b){var c,d,e,f,g=gap,h,i=b[a];if(i&&typeof i==="object"&&typeof i.toJSON==="function"){i=i.toJSON(a)}if(typeof rep==="function"){i=rep.call(b,a,i)}switch(typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i){return"null"}gap+=indent;h=[];if(Object.prototype.toString.apply(i)==="[object Array]"){f=i.length;for(c=0;c<f;c+=1){h[c]=str(c,i)||"null"}e=h.length===0?"[]":gap?"[\n"+gap+h.join(",\n"+gap)+"\n"+g+"]":"["+h.join(",")+"]";gap=g;return e}if(rep&&typeof rep==="object"){f=rep.length;for(c=0;c<f;c+=1){if(typeof rep[c]==="string"){d=rep[c];e=str(d,i);if(e){h.push(quote(d)+(gap?": ":":")+e)}}}}else{for(d in i){if(Object.prototype.hasOwnProperty.call(i,d)){e=str(d,i);if(e){h.push(quote(d)+(gap?": ":":")+e)}}}}e=h.length===0?"{}":gap?"{\n"+gap+h.join(",\n"+gap)+"\n"+g+"}":"{"+h.join(",")+"}";gap=g;return e}}"use strict";if(typeof Date.prototype.toJSON!=="function"){Date.prototype.toJSON=function(a){return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+f(this.getUTCMonth()+1)+"-"+f(this.getUTCDate())+"T"+f(this.getUTCHours())+":"+f(this.getUTCMinutes())+":"+f(this.getUTCSeconds())+"Z":null};String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(a){return this.valueOf()}}var cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={"\b":"\\b","    ":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},rep;if(typeof JSON.stringify!=="function"){JSON.stringify=function(a,b,c){var d;gap="";indent="";if(typeof c==="number"){for(d=0;d<c;d+=1){indent+=" "}}else if(typeof c==="string"){indent=c}rep=b;if(b&&typeof b!=="function"&&(typeof b!=="object"||typeof b.length!=="number")){throw new Error("JSON.stringify")}return str("",{"":a})}}if(typeof JSON.parse!=="function"){JSON.parse=function(text,reviver){function walk(a,b){var c,d,e=a[b];if(e&&typeof e==="object"){for(c in e){if(Object.prototype.hasOwnProperty.call(e,c)){d=walk(e,c);if(d!==undefined){e[c]=d}else{delete e[c]}}}}return reviver.call(a,b,e)}var j;text=String(text);cx.lastIndex=0;if(cx.test(text)){text=text.replace(cx,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})}if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,""))){j=eval("("+text+")");return typeof reviver==="function"?walk({"":j},""):j}throw new SyntaxError("JSON.parse")}}})();
 
   /**
-   * Default hostname and port configuration settings for communicating with the RPE Persistence Server.
+   * The hostname of the RPE Persistence Server.
    *
-   * @property {String} [serviceHost="localhost"] The hostname where the RPE Persistence Server service is active.
-   * @property {String} [servicePort="27465"] The port that the RPE Persistence Server service is bound to.
-   * @property {String} [serviceURI="http://localhost:27465/"] The root URI for communicating with the RPE Persistence Server.
+   * @property serviceHost
+   * @type String
+   * @default "localhost"
    */
   var serviceHost = "localhost";
+
+  /**
+   * The port number of the RPE Persistence Server.
+   *
+   * @property servicePort
+   * @type String
+   * @default "27465"
+   */
   var servicePort = 27465;
+  /**
+   * The base URI for communicating with the RPE Persistence Server service.
+   *
+   * @property serviceURI
+   * @type String
+   * @default "http://localhost:27465/"
+   */
   var serviceURI = "http://" + serviceHost + ":" + servicePort + "/";
 
   /**
-   * Invokes an HTTP GET request using Rhino Java class wrapping.
+   * Invokes an HTTP GET request using Mozilla Rhino / Java class wrapping.
    *
-   * @param {String} url A well-formed URL.
+   * @method get
+   * @private
+   * @param url {String} A well-formed, validly encoded URL.
    * @return {String} The content of the HTTP response.
    */
   function get(url){
@@ -50,6 +76,8 @@ var RPETools = (function() {
   /**
    * Generates a 36 character UID-like identifier String; e.g. "77a04516-18b4-5be5-12ee-4bb256ebae9e".
    *
+   * @method uid
+   * @private
    * @return {String} A new UID-like identifier.
    */
   function uid(){
@@ -60,9 +88,11 @@ var RPETools = (function() {
   };
 
   /**
-   * Allocates a file using Rhino Java class wrapping.
+   * Allocates a file using Mozilla Rhino / Java class wrapping.
    *
-   * @param {String} filename A fully-qualified filepath and filename descriptor.
+   * @method getFile
+   * @private
+   * @param filename {String} A fully-qualified filepath and filename descriptor.
    * @return {java.io.File}
    */
   function getFile(filename){
@@ -74,11 +104,13 @@ var RPETools = (function() {
   };
 
   /**
-   * Writes content to a file using Rhino Java class wrapping.
+   * Writes content to a file using Mozilla Rhino / Java class wrapping.
    *
-   * @param {String} filename A fully-qualified filepath and filename descriptor.
-   * @param {String} content A fully-qualified filepath and filename descriptor.
-   * @param {Boolean} [append=false] A flag that adjusts the write mode (append to existing file, or overwrite).
+   * @method writeToFile
+   * @private
+   * @param filename {String} A fully-qualified filepath and filename descriptor.
+   * @param content {String} A fully-qualified filepath and filename descriptor.
+   * @param [append=false] {Boolean} A flag that adjusts the write mode (append to existing file, or overwrite).
    */
   function writeToFile(){
     var filename = (arguments[0]) ? arguments[0] : "";
@@ -92,14 +124,31 @@ var RPETools = (function() {
   };
 
   /**
+   * Overrides default hostname and port configuration settings for the RPE Persistence Server.
+   *
+   * @method setHost
+   * @param serviceHost {String} The IP address or hostname where the RPE Persistence Server service is running.
+   * @param servicePort {String} The port number that the RPE Persistence Server service is bound to.
+   **/
+  function setHost(){
+    serviceHost = (arguments[0]) ? arguments[0] : "localhost";
+    servicePort = (arguments[1]) ? arguments[1] : "27465";
+    serviceURI = "http://" + serviceHost + ":" + servicePort + "/";
+  }
+
+  /**
    * The Storage module is used to persist variables across multiple RPE templates.
+   *
+   * @class Storage
+   * @static
    */
   var Storage = (function() {
 
     /**
-     * Retrieves the value of a variable stored on the RPE Persistence Server.
+     * Retrieves the value of a named variable from the RPE Persistence Server.
      *
-     * @param {String} name The name of the desired stored variable.
+     * @method read
+     * @param name {String} The name of the desired stored variable.
      * @return {String} The value of the stored variable on the RPE Persistence Server.
      */
     function read(){
@@ -122,8 +171,9 @@ var RPETools = (function() {
     /**
      * Stores (or overwrites) a variable on the RPE Persistence Server.
      *
-     * @param {String} name The name of the variable to store.
-     * @param {String} value The value to be assigned to the named variable.
+     * @method write
+     * @param name {String} The name of the variable to store.
+     * @param value {String} The value to be assigned to the named variable.
      * @return {String} The original value.
      */
     function write(){
@@ -142,9 +192,10 @@ var RPETools = (function() {
     };
 
     /**
-     * Clears all variables and associated values from the RPE Persistence Server.
+     * Clears all variables from the RPE Persistence Server.
      *
-     * @return {String} Empty string.
+     * @method reset
+     * @return {String} An empty string.
      */
     function reset(){
       request = serviceURI + "storage/reset";
@@ -156,7 +207,8 @@ var RPETools = (function() {
     /**
      * Saves to disk an XML representation of all variables stored on the RPE Persistence Server.
      *
-     * @param {String} filename The target filename for writing XML content.
+     * @method saveXML
+     * @param filename {String} The target filename to which XML content is written.
      * @return {String} An XML representation of all variables stored on the RPE Persistence Server.
      */
     function saveXML(){
@@ -173,9 +225,7 @@ var RPETools = (function() {
       return result;
     };
 
-    /**
-     * Return publicly accessible functions for the Storage module.
-     */
+    // Return publicly accessible functions for the Storage module.
     return {
       read : read,
       write : write,
@@ -185,15 +235,19 @@ var RPETools = (function() {
   })();
 
   /**
-   * the Logger module is used to manage publishing logs for non-trivial RPE templates.
+   * The Logger module is used to manage publishing logs for non-trivial RPE templates.
+   *
+   * @class Logger
+   * @static
    */
   var Logger = (function() {
 
     /**
      * Records (and optionally tags) a log message to the RPE Persistence Server.
      *
-     * @param {String} msg The content of the log message to be stored.
-     * @param {String} [tag=""] An optional String that can be used to identify related log messages.
+     * @method log
+     * @param msg {String} The content of the log message to be stored.
+     * @param [tag=""] {String} An optional String that can be used to identify related log messages.
      * @return {String} A 36 character ID generated for the logged message, to use with an RPE Bookmark element.
      */
     function log(){
@@ -216,6 +270,7 @@ var RPETools = (function() {
     /**
      * Clears all log entries from the RPE Persistence Server.
      *
+     * @method reset
      * @return {String} Empty string.
      */
     function reset(){
@@ -228,7 +283,8 @@ var RPETools = (function() {
     /**
      * Saves to disk an XML representation of all logged messages on the RPE Persistence Server.
      *
-     * @param {String} filename The target filename for writing XML content.
+     * @method saveXML
+     * @param filename {String} The target filename to which XML content is written.
      * @return {String} An XML representation of all logged messages on the RPE Persistence Server.
      */
     function saveXML(){
@@ -245,9 +301,7 @@ var RPETools = (function() {
       return result;
     };
 
-    /**
-     * Return publicly accessible functions for the Logger module.
-     */
+    // Return publicly accessible functions for the Logger module.
     return {
       log : log,
       reset : reset,
@@ -255,38 +309,10 @@ var RPETools = (function() {
     };
   })();
 
-  /**
-   * Getter to enable public access to the Storage module.
-   */
-  function getStorage(){
-    return Storage;
-  };
-
-  /**
-   * Getter to enable public access to the Logger module.
-   */
-  function getLogger(){
-    return Logger;
-  };
-
-  /**
-   * Overrides default hostname and port configuration settings for the RPE Persistence Server.
-   *
-   * @param {String} serviceHost The target filename for writing XML content.
-   * @param {String} servicePort The target filename for writing XML content.
-   **/
-  function setHost(){
-    serviceHost = (arguments[0]) ? arguments[0] : "localhost";
-    servicePort = (arguments[1]) ? arguments[1] : "27465";
-    serviceURI = "http://" + serviceHost + ":" + servicePort + "/";
-  }
-
-  /**
-   * Return functions for accessing the Storage and Logger modules, and to override the default hostname and port configuration settings for the RPE Persistence Server.
-   */
+  // Return access functions for the Storage and Logger classes, and to the setHost() function for overriding the default hostname and port configuration settings for the RPE Persistence Server.
   return{
-    getStorage : getStorage,
-    getLogger : getLogger,
+    Storage : Storage,
+    Logger : Logger,
     setHost : setHost
   };
 })();
