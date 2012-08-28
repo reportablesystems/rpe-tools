@@ -26,22 +26,22 @@ var RPETools = (function() {
   var JSON;if(!JSON){JSON={}}(function(){function f(a){return a<10?"0"+a:a}function quote(a){escapable.lastIndex=0;return escapable.test(a)?'"'+a.replace(escapable,function(a){var b=meta[a];return typeof b==="string"?b:"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+a+'"'}function str(a,b){var c,d,e,f,g=gap,h,i=b[a];if(i&&typeof i==="object"&&typeof i.toJSON==="function"){i=i.toJSON(a)}if(typeof rep==="function"){i=rep.call(b,a,i)}switch(typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i){return"null"}gap+=indent;h=[];if(Object.prototype.toString.apply(i)==="[object Array]"){f=i.length;for(c=0;c<f;c+=1){h[c]=str(c,i)||"null"}e=h.length===0?"[]":gap?"[\n"+gap+h.join(",\n"+gap)+"\n"+g+"]":"["+h.join(",")+"]";gap=g;return e}if(rep&&typeof rep==="object"){f=rep.length;for(c=0;c<f;c+=1){if(typeof rep[c]==="string"){d=rep[c];e=str(d,i);if(e){h.push(quote(d)+(gap?": ":":")+e)}}}}else{for(d in i){if(Object.prototype.hasOwnProperty.call(i,d)){e=str(d,i);if(e){h.push(quote(d)+(gap?": ":":")+e)}}}}e=h.length===0?"{}":gap?"{\n"+gap+h.join(",\n"+gap)+"\n"+g+"}":"{"+h.join(",")+"}";gap=g;return e}}"use strict";if(typeof Date.prototype.toJSON!=="function"){Date.prototype.toJSON=function(a){return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+f(this.getUTCMonth()+1)+"-"+f(this.getUTCDate())+"T"+f(this.getUTCHours())+":"+f(this.getUTCMinutes())+":"+f(this.getUTCSeconds())+"Z":null};String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(a){return this.valueOf()}}var cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={"\b":"\\b","    ":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},rep;if(typeof JSON.stringify!=="function"){JSON.stringify=function(a,b,c){var d;gap="";indent="";if(typeof c==="number"){for(d=0;d<c;d+=1){indent+=" "}}else if(typeof c==="string"){indent=c}rep=b;if(b&&typeof b!=="function"&&(typeof b!=="object"||typeof b.length!=="number")){throw new Error("JSON.stringify")}return str("",{"":a})}}if(typeof JSON.parse!=="function"){JSON.parse=function(text,reviver){function walk(a,b){var c,d,e=a[b];if(e&&typeof e==="object"){for(c in e){if(Object.prototype.hasOwnProperty.call(e,c)){d=walk(e,c);if(d!==undefined){e[c]=d}else{delete e[c]}}}}return reviver.call(a,b,e)}var j;text=String(text);cx.lastIndex=0;if(cx.test(text)){text=text.replace(cx,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})}if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,""))){j=eval("("+text+")");return typeof reviver==="function"?walk({"":j},""):j}throw new SyntaxError("JSON.parse")}}})();
 
   /**
-   * The hostname of the RPE Persistence Server.
+   * The hostname or IP address of the RPE Persistence Server.
    *
-   * @property serviceHost
+   * @property host
    * @type String
    * @default "localhost"
    */
-  var serviceHost = "localhost";
+  var host = "localhost";
 
   /**
    * The port number of the RPE Persistence Server.
    *
-   * @property servicePort
-   * @type String
-   * @default "27465"
+   * @property port
+   * @type Number
+   * @default 27465
    */
-  var servicePort = 27465;
+  var port = 27465;
   /**
    * The base URI for communicating with the RPE Persistence Server service.
    *
@@ -49,7 +49,7 @@ var RPETools = (function() {
    * @type String
    * @default "http://localhost:27465/"
    */
-  var serviceURI = "http://" + serviceHost + ":" + servicePort + "/";
+  var serviceURI = "http://" + host + ":" + port + "/";
 
   /**
    * Invokes an HTTP GET request using Mozilla Rhino / Java class wrapping.
@@ -127,13 +127,15 @@ var RPETools = (function() {
    * Overrides default hostname and port configuration settings for the RPE Persistence Server.
    *
    * @method setHost
-   * @param serviceHost {String} The IP address or hostname where the RPE Persistence Server service is running.
-   * @param servicePort {String} The port number that the RPE Persistence Server service is bound to.
+   * @param host {String} The IP address or hostname where the RPE Persistence Server service is running.
+   * @param port {Number} The port number that the RPE Persistence Server service is bound to.
+   * @example
+       RPETools.setHost("10.0.2.5",27465);
    **/
   function setHost(){
-    serviceHost = (arguments[0]) ? arguments[0] : "localhost";
-    servicePort = (arguments[1]) ? arguments[1] : "27465";
-    serviceURI = "http://" + serviceHost + ":" + servicePort + "/";
+    host = (arguments[0]) ? arguments[0] : "localhost";
+    port = (arguments[1]) ? arguments[1] : 27465;
+    serviceURI = "http://" + host + ":" + port + "/";
   }
 
   /**
