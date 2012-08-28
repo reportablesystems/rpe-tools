@@ -139,7 +139,7 @@ var RPETools = (function() {
   }
 
   /**
-   * The Storage module is used to persist variables across multiple RPE templates.
+   * The Storage class is used to persist variables across multiple RPE templates.
    *
    * @class Storage
    * @static
@@ -264,7 +264,7 @@ var RPETools = (function() {
   })();
 
   /**
-   * The Logger module is used to manage publishing logs for non-trivial RPE templates.
+   * The Logger class is used to manage publishing logs for non-trivial RPE templates.
    *
    * @class Logger
    * @static
