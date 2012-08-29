@@ -199,7 +199,7 @@ var RPETools = (function() {
             name : "Test Object's Nested Object"
           }
         };
-        RPETools.Storage().write("anObjectVariable",myObjectVariable);
+        RPETools.Storage.write("anObjectVariable",myObjectVariable);
      */
     function write(){
       var name = (arguments[0]) ? arguments[0] : "";
