@@ -31,6 +31,7 @@
 
       </header>
       <section>
+      <section>
       <h2>Multi-Template Variable Persistence</h2>
 
       <p>Ever found yourself wishing for an easy way to persist variables between multi-template IBM Rational® Publishing Engine™ document specifications?</p>
@@ -103,7 +104,7 @@
 
       <ol>
           <li>
-              <p>Copy the seven .dta templates from <strong>\rpe-tools\snippets\</strong> to <strong>%RPE_HOME%\source\snippets\</strong></p>
+              <p>Copy the eight .dta templates from <strong>\rpe-tools\snippets\</strong> to <strong>%RPE_HOME%\source\snippets\</strong></p>
 
 <pre><code>RPETools - Storage - Reset.dta
     RPETools - Storage - Read Variable.dta
@@ -112,6 +113,7 @@
     RPETools - Logger - Reset.dta
     RPETools - Logger - Add Log Message.dta
     RPETools - Logger - Save XML.dta
+    RPETools - Quit.dta
 </code></pre>
 
               <p><em>Note - the default local installation path will be similar to C:\Program Files\IBM\Rational\Publishing Engine\1.1.2\source\snippets.</em></p>
@@ -142,6 +144,15 @@
 
       <div class="highlight"><pre><span class="nx">RPETools</span><span class="p">.</span><span class="nx">setHost</span><span class="p">(</span><span class="s2">"10.0.2.3"</span><span class="p">,</span><span class="mi">27465</span><span class="p">);</span> <span class="c1">//uncomment &amp; adjust hostname:port if defaults are unsuitable.</span>
 </pre></div>
+
+      <h4>Terminating the service</h4>
+
+      <p>The <strong>quit()</strong> function is used to shutdown <em>RPE Persistence Server</em>:</p>
+
+      <div class="highlight"><pre><span class="nx">RPETools</span><span class="p">.</span><span class="nx">quit</span><span class="p">();</span>
+</pre></div>
+
+      <p>This, in combination with the earlier pre-command example, can be used to fully automate the start/stop cycle of <em>RPE Persistence Server</em> during the publishing process.</p>
 
       <h3>Hints &amp; Tips</h3>
 
