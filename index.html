@@ -31,52 +31,248 @@
 
       </header>
       <section>
-        <h3>Multi-Template Variable Persistence</h3>
+      <h2>Multi-Template Variable Persistence</h2>
 
-<p>Ever found yourself wishing for an easy way to persist variables between multi-template IBM Rational® Publishing Engine™ document specifications?</p>
+      <p>Ever found yourself wishing for an easy way to persist variables between multi-template IBM Rational® Publishing Engine™ document specifications?</p>
 
-<p>With this library, it's as easy as adding the following to one document template:</p>
+      <p>With this library, it's as easy as adding the following to one document template:</p>
 
-<pre><code class="javascript">RPETools.Storage.write("myVariable","My variable's value");
+      <div class="highlight"><pre><span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"myVariable"</span><span class="p">,</span><span class="s2">"My variable's value"</span><span class="p">);</span>
+</pre></div>
+
+      <p>And this to another:</p>
+
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">myVariable</span> <span class="o">=</span> <span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s2">"myVariable"</span><span class="p">);</span>
+</pre></div>
+
+      <h2>Supercharged Logging</h2>
+
+      <p>It can often by useful to embed log style messages within the body of an RPE-generated document; for example, when an expected DOORS attribute couldn't be found or if a required condition was not met.</p>
+
+      <p>This library provides a sensible mechanism for recording, tagging and processing log messages, such that you may easily bookmark them in your generated document and construct a hyperlinked table of "Publishing Log Messages" in your document's front matter.</p>
+
+      <p>Logging a message is effortless:</p>
+
+      <div class="highlight"><pre><span class="c1">// record a simple log message...</span>
+<span class="kd">var</span> <span class="nx">bookmark</span> <span class="o">=</span> <span class="nx">RPETools</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"The requested Rhapsody package could not be found."</span><span class="p">);</span>
+
+<span class="c1">// record a log message tagged "DOORS"...</span>
+<span class="kd">var</span> <span class="nx">bookmark</span> <span class="o">=</span> <span class="nx">RPETools</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Expected DOORS module attribute not found."</span><span class="p">,</span><span class="s2">"DOORS"</span><span class="p">);</span>
+</pre></div>
+
+      <h2>How It Works</h2>
+
+      <ol>
+          <li>The <em>RPE Tools JS</em> source is embedded as an assignment in an RPE container element.</li>
+          <li>Within the assignment's execution context, a JavaScript object named <strong>RPETools</strong> is instantiated.</li>
+          <li>The <strong>RPETools</strong> object contains a number of functions that template authors can call to help read and write variables and log messages.</li>
+          <li>The functions construct and send HTTP GET requests to an external web server, <strong>RPE Persistence Server</strong>.</li>
+          <li>Responses from the web server are decoded appropriately by the calling function.</li>
+      </ol><p><img src="http://reportablesystems.github.com/rpe-tools/images/mockup_overview.png" alt="Overview"></p>
+
+      <p>Using a web server as an external store simplifies data sharing, especially for multi-template document specifications:</p>
+
+      <p><img src="http://reportablesystems.github.com/rpe-tools/images/mockup_multiple_templates.png" alt="Multiple Templates"></p>
+
+      <h2>Requirements</h2>
+
+      <ul>
+          <li>RPE version 1.1.2 or above.</li>
+          <li>Write access to %RPE_HOME% (your RPE installation directory).</li>
+          <li>A copy of the project <a href="https://github.com/reportablesystems/rpe-tools/zipball/master">zip file</a>.</li>
+      </ul><p>The zip file comprises:</p>
+
+      <ul>
+          <li>
+              <strong>\snippets</strong> - pre-built RPE template snippets for using the Storage and Logger functions.</li>
+          <li>
+              <strong>\schemas</strong> - XML schemas for creating Generic XML data sources in RPE.</li>
+          <li>
+              <strong>\win32</strong> - contains the <em>RPE Persistence Server.exe</em> web server application.</li>
+          <li>
+              <strong>rpe-tools.js</strong> - the JavaScript source code.</li>
+          <li>
+              <strong>rpe-tools.min.js</strong> - minified JavaScript source, as used in the snippets.</li>
+      </ul><hr><h2>Getting Started</h2>
+
+      <h3>Install the RPE Snippets</h3>
+
+      <p>The easiest way to use <em>RPE Tools JS</em> is via RPE's snippet mechanism. This allows you to drag and drop storage and logging actions onto your document templates from the RPE Palette:</p>
+
+      <p><img src="http://reportablesystems.github.com/rpe-tools/images/01_palette_snippets.png" alt="RPE Palette Snippets"></p>
+
+      <ol>
+          <li>
+              <p>Copy the seven .dta templates from <strong>\rpe-tools\snippets\</strong> to <strong>%RPE_HOME%\source\snippets\</strong></p>
+
+<pre><code>RPETools - Storage - Reset.dta
+    RPETools - Storage - Read Variable.dta
+    RPETools - Storage - Write Variable.dta
+    RPETools - Storage - Save XML.dta
+    RPETools - Logger - Reset.dta
+    RPETools - Logger - Add Log Message.dta
+    RPETools - Logger - Save XML.dta
 </code></pre>
 
-<p>And this to another:</p>
+              <p><em>Note - the default local installation path will be similar to C:\Program Files\IBM\Rational\Publishing Engine\1.1.2\source\snippets.</em></p>
+          </li>
+          <li><p>Launch RPE Document Studio and select <strong>Template &gt; Organize Snippets...</strong></p></li>
+          <li><p>Use the <strong>Publish Snippet</strong> dialog to add each snippet from <strong>%RPE_HOME%\source\snippets\</strong>.</p></li>
+      </ol><h3>Install &amp; Launch RPE Persistence Server</h3>
 
-<pre><code class="javascript">var myVariable = RPETools.Storage.read("myVariable");
+      <ol>
+          <li>Copy <em>RPE Persistence Server.exe</em> from  <strong>\rpe-tools\win32\</strong> to <strong>%RPE_HOME%\source\utils\</strong>.</li>
+          <li>Double-click the application icon; a console window should appear:</li>
+      </ol><p><img src="http://reportablesystems.github.com/rpe-tools/images/02_rpe_persistence_server.png" alt="RPE Persistence Server"></p>
+
+      <h4>Launching via pre-command</h4>
+
+      <p><em>RPE Persistence Server</em> can be launched using the pre-command property in a document specification:</p>
+
+<pre><code>cmd /c "${RPE_HOME}\utils\RPE Persistence Server.exe"
 </code></pre>
 
-<h3>Supercharged Logging</h3>
+      <p><em>See IBM's <a href="http://publib.boulder.ibm.com/infocenter/rpehelp/v1r1m1/index.jsp?topic=%2Fcom.ibm.rational.pe.overview.doc%2Ftopics%2Fc_whats_new_112.html">Preprocessing and postprocessing of output</a> documentation for learn more about using pre-commands.</em></p>
 
-<p>It can often by useful to embed log style messages within the actual content of an RPE-generated document; for example, when an expected DOORS attribute couldn't be found or a required condition was not met.</p>
+      <h4>Non-localhost deployment</h4>
 
-<p>This library provides a sensible mechanism for recording, tagging and processing log messages, such that you may easily bookmark them in your generated document and construct a hyperlinked table of "Publishing Log Messages" in your document's front matter.</p>
+      <p>If you elect to run <em>RPE Persistence Server</em> on another system, you will need to override the default hostname and port settings (localhost:27465) in the JavaScript library.</p>
 
-<p>Logging a message is effortless:</p>
+      <p>A means of achieving this is helpfully included in all of the pre-built snippets; simply uncomment and adjust the line that contains the <strong>setHost()</strong> function call:</p>
 
-<pre><code class="javascript">// record a simple log message...
-var bookmark = RPETools.Logger.log("The requested Rhapsody package could not be found.");
+      <div class="highlight"><pre><span class="nx">RPETools</span><span class="p">.</span><span class="nx">setHost</span><span class="p">(</span><span class="s2">"10.0.2.3"</span><span class="p">,</span><span class="mi">27465</span><span class="p">);</span> <span class="c1">//uncomment &amp; adjust hostname:port if defaults are unsuitable.</span>
+</pre></div>
 
-// record a log message tagged "DOORS"...
-var bookmark = RPETools.Logger.log("Expected DOORS module attribute not found.","DOORS");
-</code></pre>
+      <h3>Hints &amp; Tips</h3>
 
-<h2>RPETools.Storage: In Detail</h2>
+      <p>Using the pre-built snippets is the easiest way to use <em>RPE Tools JS</em>. To write a variable, drop the <strong>RPETools - Storage - Write Variable.dta</strong> into your document template. To read a variable, use <strong>RPETools - Storage - Read Variable.dta</strong>, and so on.</p>
 
-<p><em>Coming soon.</em></p>
+      <p>The snippet approach avoids copying and pasting JavaScript code, leaving you to focus on customising the function calls for your storage and logging needs.</p>
 
-<h2>RPETools.Logger: In Detail</h2>
+      <hr><h1>Storage</h1>
 
-<p><em>Coming soon.</em></p>
+      <p>Full API documentation for <strong>RPETools.Storage</strong>, in addition to the examples given below, can be found <a href="http://reportablesystems.github.com/rpe-tools/docs/classes/Storage.html">here</a>.</p>
 
-<h2>Getting Started</h2>
+      <h2>Resetting / Initialising Storage</h2>
 
-<p><em>Coming soon.</em></p>
+      <p>To avoid using stale or invalid data, the <strong>reset()</strong> function should be used to initialise Storage at the start of publishing:</p>
 
-<h2>API Documentation</h2>
+      <div class="highlight"><pre><span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+</pre></div>
 
-<ul>
-<li><a href="http://reportablesystems.github.com/rpe-tools/docs/index.html">http://reportablesystems.github.com/rpe-tools/docs/index.html</a></li>
-</ul>
+      <p>This function call would typically be placed at the start of the first template in a multi-template document specification. A good idea is to add this to an "initialisation" template that can be re-used across all of your document specifications.</p>
+
+      <h2>Writing Variables</h2>
+
+      <p>To save a variable to <em>RPE Persistence Server</em>, use the <strong>write()</strong> function:</p>
+
+      <div class="highlight"><pre><span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"myVariable"</span><span class="p">,</span><span class="s2">"My variable's value"</span><span class="p">);</span>
+</pre></div>
+
+      <p>RPE Tools' use of JSON to serialize and deserialize data means you're not just limited to storing String:</p>
+
+      <div class="highlight"><pre><span class="c1">// store some simple JS vars...</span>
+<span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"myBooleanVariable"</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+<span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"myNumericVariable"</span><span class="p">,</span><span class="mi">256</span><span class="p">);</span>
+<span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"myStringVariable"</span><span class="p">,</span><span class="s2">"Some string."</span><span class="p">);</span>
+
+<span class="c1">// store an array &amp; simple JS object...</span>
+<span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"myArrayVariable"</span><span class="p">,[</span><span class="s2">"Audi"</span><span class="p">,</span><span class="s2">"BMW"</span><span class="p">,</span><span class="s2">"Jaguar"</span><span class="p">]);</span>
+<span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"myLiteralVariable"</span><span class="p">,{</span><span class="s2">"host"</span><span class="o">:</span><span class="s2">"localhost"</span><span class="p">,</span><span class="s2">"port"</span><span class="o">:</span><span class="s2">"27465"</span><span class="p">});</span>
+
+<span class="c1">// store a more complex JS object...</span>
+<span class="kd">var</span> <span class="nx">myObjectVariable</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s2">"Test Object"</span><span class="p">,</span>
+  <span class="nx">someArrayNumbers</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+  <span class="nx">aFlag</span> <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">aNestedObject</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="o">:</span> <span class="s2">"Test Object's Nested Object"</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+<span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">"myObjectVariable"</span><span class="p">,</span><span class="nx">myObjectVariable</span><span class="p">);</span>
+</pre></div>
+
+      <h2>Reading Variables</h2>
+
+      <p>Use the <strong>read()</strong> function to retrieve a named variable's value from <em>RPE Persistence Server</em>:</p>
+
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">myVariable</span> <span class="o">=</span> <span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s2">"myVariable"</span><span class="p">);</span>
+</pre></div>
+
+      <p>How about retrieving a more complex JavaScript object, like <em>myObjectVariable</em> from our earlier example?</p>
+
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">myObjectVariable</span> <span class="o">=</span> <span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s2">"myObjectVariable"</span><span class="p">);</span>
+<span class="nx">myObjectVariable</span><span class="p">.</span><span class="nx">aNestedObject</span><span class="p">.</span><span class="nx">name</span> <span class="c1">// =&gt; "Test Object's Nested Object"</span>
+</pre></div>
+
+      <h2>Exporting Storage to XML</h2>
+
+      <p>It may be useful to directly query all variables stored on the <em>RPE Persistence Server</em> as an RPE data source. For this, use the <strong>saveXML()</strong> function:</p>
+
+      <div class="highlight"><pre><span class="nx">RPETools</span><span class="p">.</span><span class="nx">Storage</span><span class="p">.</span><span class="nx">saveXML</span><span class="p">(</span><span class="s2">"c:\\temp\\storage.xml"</span><span class="p">);</span>
+</pre></div>
+
+      <p>The corresponding XML schema, <strong>storage.xsd</strong>, can be used to add a Generic XML data source to your template.</p>
+
+      <h2>Best Practice</h2>
+
+      <ul>
+          <li>Only use <em>RPETools.Storage.read()</em> near the start of your template. When changing a retrieved variable's value elsewhere in a template, use a local RPE variable.</li>
+          <li>Only use <em>RPETools.Storage.write()</em> at the end of your template.</li>
+          <li>
+              <em>Never</em> read or write variables mid-query (the IO used to persist variables and log messages is computationally expensive, and can severely affect publishing performance if used within an iterating RPE element).</li>
+      </ul><hr><h1>Logger</h1>
+
+      <p>Full API documentation for <strong>RPETools.Logger</strong>, in addition to the examples given below, can be found <a href="http://reportablesystems.github.com/rpe-tools/docs/classes/Logger.html">here</a>.</p>
+
+      <h2>Resetting / Initialising Logger</h2>
+
+      <p>To initialise Logger at the start of publishing use the <strong>reset()</strong> function:</p>
+
+      <div class="highlight"><pre><span class="nx">RPETools</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+</pre></div>
+
+      <p>Similar to initialising Storage, adding this to an "initialisation" template will greatly benefit re-use.</p>
+
+      <h2>Recording Log Messages</h2>
+
+      <p>Log messages are recorded using the <strong>log()</strong> function:</p>
+
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">bookmark</span> <span class="o">=</span> <span class="nx">RPETools</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"The requested Rhapsody package could not be found."</span><span class="p">);</span>
+</pre></div>
+
+      <p>A second argument may be used in the function call to "tag" similar or related messages:</p>
+
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">bookmark</span> <span class="o">=</span> <span class="nx">RPETools</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Expected DOORS module attribute not found."</span><span class="p">,</span><span class="s2">"DOORS"</span><span class="p">);</span>
+</pre></div>
+
+      <p>Then later:</p>
+
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">bookmark</span> <span class="o">=</span> <span class="nx">RPETools</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"There was another DOORS problem!"</span><span class="p">,</span><span class="s2">"DOORS"</span><span class="p">);</span>
+</pre></div>
+
+      <h2>Bookmarks</h2>
+
+      <p>Each call to <strong>log()</strong> returns a unique 36 character UID-like identifier which was automatically associated with the logged message. This identifier can then be used to place a hyperlink-able bookmark element alongside an in-line log message in the body of your generated document.</p>
+
+      <h2>Exporting to XML</h2>
+
+      <p>The <strong>saveXML()</strong> function is used thus:</p>
+
+      <div class="highlight"><pre><span class="nx">RPETools</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">saveXML</span><span class="p">(</span><span class="s2">"c:\\temp\\logger.xml"</span><span class="p">);</span>
+</pre></div>
+
+      <p>The <strong>logger.xsd</strong> XML schema can be used to query the output as a Generic XML data source.</p>
+
+      <h2>Creating a "Publishing Logs" Index</h2>
+
+      <p><em>Coming soon.</em></p>
+
+      <hr><h1>Source Documentation</h1>
+
+      <ul>
+          <li><a href="http://reportablesystems.github.com/rpe-tools/docs/index.html">JavaScript Reference</a></li>
+      </ul>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/reportablesystems">reportablesystems</a></p>
