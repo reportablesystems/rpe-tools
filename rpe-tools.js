@@ -146,7 +146,7 @@ var RPETools = (function() {
    RPETools.quit();
    **/
   function quit(){
-    request = serviceURI + "/quit";
+    request = serviceURI + "quit";
     get(request);
     java.lang.System.out.println("RPETools.js: quit RPE Persistence Server.");
     return "";
