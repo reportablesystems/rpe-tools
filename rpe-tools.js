@@ -366,6 +366,7 @@ var RPETools = (function() {
   return{
     Storage : Storage,
     Logger : Logger,
-    setHost : setHost
+    setHost : setHost,
+    quit : quit
   };
 })();
