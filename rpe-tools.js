@@ -139,6 +139,20 @@ var RPETools = (function() {
   }
 
   /**
+   * Terminates the RPE Persistence Server process.
+   *
+   * @method quit
+   * @example
+   RPETools.quit();
+   **/
+  function quit(){
+    request = serviceURI + "/quit";
+    get(request);
+    java.lang.System.out.println("RPETools.js: quit RPE Persistence Server.");
+    return "";
+  }
+
+  /**
    * The Storage class is used to persist variables across multiple RPE templates.
    *
    * @class Storage
