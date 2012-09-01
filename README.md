@@ -1,16 +1,18 @@
-#RPE Tools#
-===========
-A data persistence &amp; logging utility for IBM Rational® Publishing Engine™.
-Use in conjunction with RPE Persistence Server from Reportable Systems.
+#RPE Tools JS#
+==============
+A free data persistence &amp; logging utility for IBM Rational® Publishing Engine™ from Reportable Systems.
 
-Copyright 2012, ReportableSystems.com - [http://www.reportablesystems.com](http://www.reportablesystems.com)
+Easily transfer variables and record log messages between templates in multi-template RPE document specifications:
 
-NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+![Multiple Templates](http://reportablesystems.github.com/rpe-tools/images/mockup_multiple_templates.png)
+
 ##Documentation##
-* JavaScript API reference - [here](http://reportablesystems.github.com/rpe-tools/docs/index.html)
-* Project documentation (work in progress) - [here](http://reportablesystems.github.com/rpe-tools/)
+* Read the [User Guide](http://reportablesystems.github.com/rpe-tools/)
+* Read the [JavaScript Reference](http://reportablesystems.github.com/rpe-tools/docs/index.html)
 
+##Reportable Systems##
+We are a UK-based software consultancy specialising in automated document production and publishing systems for organisations using IBM® Rational Publishing Engine™.
 
-##License##
-RPE Tools is released under the MIT license:
-* [www.opensource.org/licenses/MIT](www.opensource.org/licenses/MIT)
+* View our [Github](http://reportablesystems.github.com) page.
+* Visit the [Reportable Systems](http://www.reportablesystems.com) website.
+* Contact us via <hello@reportablesystems.com>
